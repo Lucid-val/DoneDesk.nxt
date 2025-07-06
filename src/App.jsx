@@ -5,7 +5,7 @@ import ThemeToggle from "./components/ThemeToggle";
 
 function App() {
   return (
-    <AuroraBackground>
+    <AuroraBackground >
       <Header />
       <ThemeToggle />
       <div className="flex items-center justify-center h-screen w-screen">
