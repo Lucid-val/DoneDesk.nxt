@@ -19,21 +19,22 @@ export const AuroraBackground = ({ children }) => {
   const rotateY = useTransform(mouseX, [0, window.innerWidth], [-10, 10]);
 
   return (
-    <motion.div
-      className="relative w-full h-screen z-0 overflow-hidden bg-neutral-950 text-white flex"
-      style={{
-        perspective: 1000,
-      }}
-    >
+    <div className="relative w-full min-h-screen bg-neutral-950 text-white overflow-hidden">
+      {/* Aurora Layer */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-[#00ccff] via-[#9e0cff] to-[#d08aff] opacity-30 blur-3xl"
+        className="absolute inset-0 bg-gradient-to-br from-[#00ccff] via-[#9e0cff] to-[#d08aff] opacity-30 blur-3xl pointer-events-none"
         style={{
           rotateX,
           rotateY,
           transformStyle: "preserve-3d",
+          perspective: 1000,
         }}
       />
-      <div className="relative z-10">{children}</div>
-    </motion.div>
+      
+      {/* App Content */}
+      <div className="relative z-10">
+        {children}
+      </div>
+    </div>
   );
 };
