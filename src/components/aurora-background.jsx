@@ -12,11 +12,11 @@ const neoColors = {
 };
 
 const aeroColors = {
-  gradientFrom: "#9DF4F9",
-  gradientVia: "#82C83D",
-  gradientTo: "#F3EB2E",
-  baseBg: "#9DF4F9",
-  opacity: 0.7,
+  gradientFrom: "#F8CF01",
+  gradientVia: "#0AFAEB",
+  gradientTo: "#0AFA22",
+  baseBg: "#036CFF",
+  opacity: 0.9,
 };
 
 export const AuroraBackground = ({ children }) => {
