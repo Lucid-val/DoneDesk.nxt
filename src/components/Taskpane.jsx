@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { div } from "framer-motion/client";
 
 function Taskpane() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -7,6 +8,7 @@ function Taskpane() {
   const [tasks, setTasks] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editedText, setEditedText] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleMouseMove = (e) => {
     if (window.innerWidth > 768) {
@@ -36,8 +38,7 @@ function Taskpane() {
   };
 
   const handleClearInput = () => setNewTask("");
-
-  const handleDeleteAll = () => setTasks([]);
+  
 
   const toggleTaskCompletion = (id) => {
     setTasks((prev) =>
@@ -106,7 +107,7 @@ function Taskpane() {
             </button>
             <button
               type="button"
-              onClick={handleDeleteAll}
+              onClick = {() => setShowDeleteModal(true)}
               disabled={tasks.length === 0}
               className={`px-4 py-2 rounded-[50%] ${
                 tasks.length === 0 ? "opacity-50 cursor-not-allowed" : ""
@@ -191,6 +192,48 @@ function Taskpane() {
           ))}
         </ul>
       </div>
+
+      {showDeleteModal && (
+  <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+    <motion.div
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.8, opacity: 0 }}
+      className="bg-white/10 dark:bg-black/20 border border-white/20 rounded-2xl backdrop-blur-lg p-6 w-[90%] md:w-[400px] text-center shadow-xl"
+    >
+      <h2 className="text-lg font-semibold text-white mb-4">
+        Delete all tasks?
+      </h2>
+      <p className="text-sm text-white/70 mb-6">
+        This action cannot be undone. Are you sure?
+      </p>
+      <div className="flex justify-center gap-4">
+        <button
+          onClick={() => {
+            setTasks([]);
+            setShowDeleteModal(false);
+          }}
+          className="px-4 py-2 bg-red-500/30 hover:bg-red-500/50 text-white rounded-lg transition-all"
+        >
+          Yes, Delete
+        </button>
+        <button
+          onClick={() => setShowDeleteModal(false)}
+          className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all"
+        >
+          Cancel
+        </button>
+      </div>
+    </motion.div>
+  </div>
+)}
+
+
+
+
+
+
+
 
       {tasks.length === 0 && (
         <div className="text-center mt-6 flex flex-col items-center justify-center gap-2 animate-fade-in">
