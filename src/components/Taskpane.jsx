@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { div } from "framer-motion/client";
 
 function Taskpane() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [newTask, setNewTask] = useState("");
-  const [tasks, setTasks] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editedText, setEditedText] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  
+  const storedTasks = JSON.parse(localStorage.getItem("donedesk_tasks") || "[]");
+  const [tasks, setTasks] = useState(storedTasks);
+  
+  const storedTheme = localStorage.getItem("donedesk_theme") || "aero";
+  const [theme, setTheme] = useState(storedTheme);
+
+  useEffect(() => {
+    localStorage.setItem("donedesk_theme", theme);
+  }, [theme]);
+  
+
+  useEffect(() => {
+    localStorage.setItem("donedesk_tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
 
   const handleMouseMove = (e) => {
     if (window.innerWidth > 768) {

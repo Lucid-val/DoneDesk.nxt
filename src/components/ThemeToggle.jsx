@@ -13,21 +13,31 @@ function ThemeToggle() {
 
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
-    document.documentElement.classList.remove("dark", "light");
+    document.documentElement.classList.remove("light", "dark"); // Remove both classes first
     document.documentElement.classList.add(newTheme);
 
     setTimeout(() => setIsAnimating(false), 300);
   };
 
   useEffect(() => {
-    const savedTheme =
-      localStorage.getItem("theme") ||
-      (window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light");
-
-    setTheme(savedTheme);
-    document.documentElement.classList.add(savedTheme);
+    // 1. Check localStorage first
+    const savedTheme = localStorage.getItem("theme");
+    
+    // 2. If no saved theme, check system preference
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches 
+      ? "dark" 
+      : "light";
+    
+    // 3. Use saved theme if exists, otherwise use system theme
+    const initialTheme = savedTheme || systemTheme;
+    
+    setTheme(initialTheme);
+    document.documentElement.classList.add(initialTheme);
+    
+    // Cleanup function to remove class when component unmounts
+    return () => {
+      document.documentElement.classList.remove(initialTheme);
+    };
   }, []);
 
   return (
@@ -86,7 +96,7 @@ function ThemeToggle() {
   );
 }
 
-// Icons
+// Icons (remain the same)
 function CloudIcon({ className }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 20 20" fill="currentColor">
