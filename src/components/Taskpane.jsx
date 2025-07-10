@@ -1,28 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-function Taskpane() {
+function Taskpane({ tasks, setTasks }) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [newTask, setNewTask] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editedText, setEditedText] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  
-  const storedTasks = JSON.parse(localStorage.getItem("donedesk_tasks") || "[]");
-  const [tasks, setTasks] = useState(storedTasks);
-  
-  const storedTheme = localStorage.getItem("donedesk_theme") || "aero";
-  const [theme, setTheme] = useState(storedTheme);
-
-  useEffect(() => {
-    localStorage.setItem("donedesk_theme", theme);
-  }, [theme]);
-  
 
   useEffect(() => {
     localStorage.setItem("donedesk_tasks", JSON.stringify(tasks));
   }, [tasks]);
-
 
   const handleMouseMove = (e) => {
     if (window.innerWidth > 768) {
@@ -52,7 +40,6 @@ function Taskpane() {
   };
 
   const handleClearInput = () => setNewTask("");
-  
 
   const toggleTaskCompletion = (id) => {
     setTasks((prev) =>
@@ -114,14 +101,14 @@ function Taskpane() {
             <button
               type="button"
               onClick={handleClearInput}
-              className="px-4 py-2 rounded-[50%] bg-yellow-300/10 hover:bg-yellow-300/20 border border-yellow-300/30 hover:border-yellow-300/50 hover:text-yellow-500 dark:hover:text-yellow-300  backdrop-blur-md transition-all"
+              className="px-4 py-2 rounded-[50%] bg-yellow-300/10 hover:bg-yellow-300/20 border border-yellow-300/30 hover:border-yellow-300/50 hover:text-yellow-500 dark:hover:text-yellow-300 backdrop-blur-md transition-all"
               aria-label="Clear input"
             >
               <i className="fa-solid fa-xmark text-sm" />
             </button>
             <button
               type="button"
-              onClick = {() => setShowDeleteModal(true)}
+              onClick={() => setShowDeleteModal(true)}
               disabled={tasks.length === 0}
               className={`px-4 py-2 rounded-[50%] ${
                 tasks.length === 0 ? "opacity-50 cursor-not-allowed" : ""
@@ -176,7 +163,7 @@ function Taskpane() {
                     toggleTaskCompletion(task.id);
                   }}
                 >
-                  <i className={`fa-solid fa-check md:text-sm`} />
+                  <i className="fa-solid fa-check md:text-sm" />
                 </button>
 
                 <button
@@ -192,7 +179,7 @@ function Taskpane() {
                 </button>
 
                 <button
-                  className="p-1  text-red-400 hover:text-red-300"
+                  className="p-1 text-red-400 hover:text-red-300"
                   aria-label="Delete task"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -208,46 +195,37 @@ function Taskpane() {
       </div>
 
       {showDeleteModal && (
-  <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.8, opacity: 0 }}
-      className="bg-white/10 dark:bg-black/20 border border-white/20 rounded-2xl backdrop-blur-lg p-6 w-[90%] md:w-[400px] text-center shadow-xl"
-    >
-      <h2 className="text-lg font-semibold text-white mb-4">
-        Delete all tasks?
-      </h2>
-      <p className="text-sm text-white/70 mb-6">
-        This action cannot be undone. Are you sure?
-      </p>
-      <div className="flex justify-center gap-4">
-        <button
-          onClick={() => {
-            setTasks([]);
-            setShowDeleteModal(false);
-          }}
-          className="px-4 py-2 bg-red-500/30 hover:bg-red-500/50 text-white rounded-lg transition-all"
-        >
-          Yes, Delete
-        </button>
-        <button
-          onClick={() => setShowDeleteModal(false)}
-          className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all"
-        >
-          Cancel
-        </button>
-      </div>
-    </motion.div>
-  </div>
-)}
-
-
-
-
-
-
-
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            className="bg-white/10 dark:bg-black/20 border border-white/20 rounded-2xl backdrop-blur-lg p-6 w-[90%] md:w-[400px] text-center shadow-xl"
+          >
+            <h2 className="text-lg font-semibold text-white mb-4">Delete all tasks?</h2>
+            <p className="text-sm text-white/70 mb-6">
+              This action cannot be undone. Are you sure?
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => {
+                  setTasks([]);
+                  setShowDeleteModal(false);
+                }}
+                className="px-4 py-2 bg-red-500/30 hover:bg-red-500/50 text-white rounded-lg transition-all"
+              >
+                Yes, Delete
+              </button>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all"
+              >
+                Cancel
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       {tasks.length === 0 && (
         <div className="text-center mt-6 flex flex-col items-center justify-center gap-2 animate-fade-in">
