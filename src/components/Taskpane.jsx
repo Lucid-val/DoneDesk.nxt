@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import TaskFilter from "./TaskFilter";
 
 function Taskpane({ tasks, setTasks }) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -7,7 +8,7 @@ function Taskpane({ tasks, setTasks }) {
   const [editingId, setEditingId] = useState(null);
   const [editedText, setEditedText] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
+  
   useEffect(() => {
     localStorage.setItem("donedesk_tasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -61,9 +62,25 @@ function Taskpane({ tasks, setTasks }) {
     setEditingId(null);
   };
 
+
+  const storedFilter = localStorage.getItem("donedesk_filter") || "all";
+  const [filter, setFilter] = useState(storedFilter)
+
+  useEffect(() => {
+    localStorage.setItem("donedesk_filter", filter);
+  }, [filter]);
+
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "all") return true;
+    if (filter === "completed") return task.completed;
+    if (filter === "pending") return !task.completed;
+    return true;
+  })
+
   return (
+    
     <motion.div
-      className="flex flex-col items-center justify-start min-h-[70vh] w-[92vw] p-4 md:p-6 lg:p-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl border border-white/20 overflow-hidden relative cursor-default"
+      className="flex flex-col items-center justify-start min-h-[75vh] w-[92vw] mb-0 p-4 md:p-6 lg:p-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl border-t border-l border-r border-white/20 overflow-hidden relative cursor-default max-h-[75vh]"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       animate={{
@@ -120,8 +137,12 @@ function Taskpane({ tasks, setTasks }) {
           </div>
         </form>
 
+         {tasks.length > 0 && (
+            <TaskFilter filter={filter} setFilter={setFilter} />
+          )}     
+
         <ul className="space-y-2 max-h-[55vh] md:max-h-[50vh] overflow-y-auto pr-1 custom-scrollbar">
-          {tasks.map((task) => (
+          {filteredTasks.map((task) => (
             <motion.li
               key={task.id}
               initial={{ opacity: 0, y: 10 }}
@@ -194,6 +215,8 @@ function Taskpane({ tasks, setTasks }) {
         </ul>
       </div>
 
+      
+
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
           <motion.div
@@ -235,6 +258,7 @@ function Taskpane({ tasks, setTasks }) {
           </p>
         </div>
       )}
+      
 
       {window.innerWidth > 768 && (
         <motion.div
