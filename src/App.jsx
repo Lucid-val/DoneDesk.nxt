@@ -6,7 +6,6 @@ import Taskpane from "./components/Taskpane";
 import Footer from "./components/Footer";
 
 function App() {
-  // Move tasks state here
   const storedTasks = JSON.parse(localStorage.getItem("donedesk_tasks") || "[]");
   const [tasks, setTasks] = useState(storedTasks);
 
@@ -16,12 +15,17 @@ function App() {
 
   return (
     <AuroraBackground>
-      <Header />
-      <Completed tasks={tasks} />
-      <div className="flex items-center justify-center h-screen w-screen mb-0">
-        <Taskpane tasks={tasks} setTasks={setTasks} />
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <Completed tasks={tasks} />
+
+        {/* Main content grows to fill remaining space */}
+        <main className="flex-grow flex items-center justify-center px-4">
+          <Taskpane tasks={tasks} setTasks={setTasks} />
+        </main>
+
+        <Footer />
       </div>
-      <Footer />
     </AuroraBackground>
   );
 }

@@ -38,7 +38,7 @@ export const AuroraBackground = ({ children }) => {
 
   return (
     <motion.div
-      className="relative w-full min-h-screen overflow-hidden flex"
+      className="relative w-full min-h-screen overflow-hidden flex flex-col justify-between"
       style={{
         perspective: 1000,
         backgroundColor: "#000000", // static dark background

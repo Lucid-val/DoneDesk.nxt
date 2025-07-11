@@ -4,7 +4,7 @@ function TaskFilter({ filter, setFilter }) {
   const filters = ["all", "pending", "completed"];
 
   return (
-    <div className="flex justify-center gap-3 mt-2 mb-6">
+    <div className="flex justify-center gap-3 mb-2">
       {filters.map((f) => (
         <button
           key={f}

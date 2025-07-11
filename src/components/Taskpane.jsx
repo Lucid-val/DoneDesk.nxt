@@ -80,7 +80,7 @@ function Taskpane({ tasks, setTasks }) {
   return (
     
     <motion.div
-      className="flex flex-col items-center justify-start min-h-[75vh] w-[92vw] mb-0 p-4 md:p-6 lg:p-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl border-t border-l border-r border-white/20 overflow-hidden relative cursor-default max-h-[75vh]"
+      className="flex flex-col mt-5 items-center justify-start min-h-[75vh] w-[92vw] md:p-6 lg:p-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl border-t border-l border-r border-white/20 overflow-hidden relative cursor-default max-h-[75vh]"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       animate={{
