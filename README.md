@@ -1,5 +1,5 @@
 
-# ✅ DoneDesk.nxt · v2.0
+# ✅ DoneDesk.nxt
 
 A Glassmorphic, local-first, minimalistic to-do list built with React — designed for clarity, speed, and elegance.
 
