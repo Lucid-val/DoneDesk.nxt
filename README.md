@@ -3,7 +3,7 @@
 
 A Glassmorphic, local-first, minimalistic to-do list built with React — designed for clarity, speed, and elegance.
 
-!🔗 **Live Site:**
+!🔗 **Live Site:** [https://lucid-val.github.io/DoneDesk.nxt](https://lucid-val.github.io/DoneDesk.nxt)
 
 ---
 
