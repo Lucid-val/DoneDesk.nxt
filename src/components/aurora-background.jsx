@@ -7,8 +7,8 @@ export const AuroraBackground = ({ children }) => {
   const mouseY = useMotionValue(0);
 
   const [windowSize, setWindowSize] = useState({
-    width: typeof window !== "undefined" ? window.innerWidth : 0,
-    height: typeof window !== "undefined" ? window.innerHeight : 0,
+    width: window.innerWidth,
+    height: window.innerHeight,
   });
 
   useEffect(() => {
@@ -18,7 +18,6 @@ export const AuroraBackground = ({ children }) => {
         height: window.innerHeight,
       });
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -31,7 +30,6 @@ export const AuroraBackground = ({ children }) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
     };
-
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
@@ -41,7 +39,7 @@ export const AuroraBackground = ({ children }) => {
       className="relative w-full min-h-screen overflow-hidden flex flex-col justify-between"
       style={{
         perspective: 1000,
-        backgroundColor: "#000000", // static dark background
+        backgroundColor: "#000",
         color: "white",
       }}
     >

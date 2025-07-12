@@ -8,11 +8,13 @@ function Taskpane({ tasks, setTasks }) {
   const [editingId, setEditingId] = useState(null);
   const [editedText, setEditedText] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  
+
+  // Persist tasks to localStorage
   useEffect(() => {
     localStorage.setItem("donedesk_tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  // Mouse tilt effect for desktop
   const handleMouseMove = (e) => {
     if (window.innerWidth > 768) {
       const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
@@ -21,9 +23,9 @@ function Taskpane({ tasks, setTasks }) {
       setPosition({ x, y });
     }
   };
-
   const handleMouseLeave = () => setPosition({ x: 0, y: 0 });
 
+  // Add task
   const handleAddTask = (e) => {
     e.preventDefault();
     if (!newTask.trim()) return;
@@ -40,8 +42,10 @@ function Taskpane({ tasks, setTasks }) {
     setNewTask("");
   };
 
+  // Clear input
   const handleClearInput = () => setNewTask("");
 
+  // Toggle completion
   const toggleTaskCompletion = (id) => {
     setTasks((prev) =>
       prev.map((task) =>
@@ -50,6 +54,7 @@ function Taskpane({ tasks, setTasks }) {
     );
   };
 
+  // Edit task
   const handleEditSave = (id) => {
     if (!editedText.trim()) return;
     setTasks((prev) =>
@@ -62,9 +67,9 @@ function Taskpane({ tasks, setTasks }) {
     setEditingId(null);
   };
 
-
+  // Filter logic
   const storedFilter = localStorage.getItem("donedesk_filter") || "all";
-  const [filter, setFilter] = useState(storedFilter)
+  const [filter, setFilter] = useState(storedFilter);
 
   useEffect(() => {
     localStorage.setItem("donedesk_filter", filter);
@@ -75,10 +80,9 @@ function Taskpane({ tasks, setTasks }) {
     if (filter === "completed") return task.completed;
     if (filter === "pending") return !task.completed;
     return true;
-  })
+  });
 
   return (
-    
     <motion.div
       className="flex flex-col mt-5 items-center justify-start min-h-[75vh] w-[92vw] md:p-6 lg:p-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl md:rounded-3xl border-t border-l border-r border-white/20 overflow-hidden relative cursor-default max-h-[75vh]"
       onMouseMove={handleMouseMove}
@@ -137,9 +141,9 @@ function Taskpane({ tasks, setTasks }) {
           </div>
         </form>
 
-         {tasks.length > 0 && (
-            <TaskFilter filter={filter} setFilter={setFilter} />
-          )}     
+        {tasks.length > 0 && (
+          <TaskFilter filter={filter} setFilter={setFilter} />
+        )}
 
         <ul className="space-y-2 max-h-[55vh] md:max-h-[50vh] overflow-y-auto pr-1 custom-scrollbar">
           {filteredTasks.map((task) => (
@@ -186,7 +190,6 @@ function Taskpane({ tasks, setTasks }) {
                 >
                   <i className="fa-solid fa-check md:text-sm" />
                 </button>
-
                 <button
                   className="p-1 mx-2 text-yellow-400 hover:text-yellow-300"
                   aria-label="Edit task"
@@ -198,7 +201,6 @@ function Taskpane({ tasks, setTasks }) {
                 >
                   <i className="fa-solid fa-pen" />
                 </button>
-
                 <button
                   className="p-1 text-red-400 hover:text-red-300"
                   aria-label="Delete task"
@@ -214,8 +216,6 @@ function Taskpane({ tasks, setTasks }) {
           ))}
         </ul>
       </div>
-
-      
 
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
@@ -258,7 +258,6 @@ function Taskpane({ tasks, setTasks }) {
           </p>
         </div>
       )}
-      
 
       {window.innerWidth > 768 && (
         <motion.div

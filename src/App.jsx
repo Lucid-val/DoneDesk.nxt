@@ -18,12 +18,9 @@ function App() {
       <div className="flex flex-col min-h-screen">
         <Header />
         <Completed tasks={tasks} />
-
-        {/* Main content grows to fill remaining space */}
         <main className="flex-grow flex items-center justify-center px-4">
           <Taskpane tasks={tasks} setTasks={setTasks} />
         </main>
-
         <Footer />
       </div>
     </AuroraBackground>
